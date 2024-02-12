@@ -1,4 +1,4 @@
-import { ChangeEvent, EventHandler, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import logo from "./assets/logo-nlw-expert.svg";
 import { NewNoteCard } from "./components/new-note-card";
 import { NoteCard } from "./components/note-card";
@@ -41,6 +41,13 @@ export function App() {
     setSearch(query);
   }
 
+  const filteredNotes =
+    search !== ""
+      ? notes.filter((note) =>
+          note.content.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+        )
+      : notes;
+
   return (
     <div className="mx-auto max-w-6xl my-12 space-y-6">
       <img src={logo} alt="NLW Expert" />
@@ -59,7 +66,7 @@ export function App() {
       <div className="grid grid-cols-3 gap-6 auto-rows-[250px]">
         <NewNoteCard onNoteCreated={onNoteCreated} />
 
-        {notes.map((note) => (
+        {filteredNotes.map((note) => (
           <NoteCard key={note.id} note={note} />
         ))}
       </div>
